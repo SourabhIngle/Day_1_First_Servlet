@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--        }-->
+<!--        form {-->
+<!--            width: 300px;-->
+<!--            margin: 0 auto;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        label {-->
+<!--            display: block;-->
+<!--            margin-bottom: 5px;-->
+<!--        }-->
+
+<!--        input[type="text"],-->
+<!--        input[type="password"] {-->
+<!--            width: 100%;-->
+<!--            padding: 5px;-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+
+<!--        #usernameError,-->
+<!--        #passwordError {-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+
+<!--        input[type="submit"] {-->
+<!--            background-color: #4CAF50;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            padding: 10px 20px;-->
+<!--            text-align: center;-->
+<!--            text-decoration: none;-->
+<!--            display: inline-block;-->
+<!--            font-size: 14px;-->
+<!--            margin-top: 10px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        input[type="submit"]:hover {-->
+<!--            background-color: #45a049;-->
+<!--        }-->
+    </style>
+</head>
+<body>
+<form action="LoginServlet" method="post" onsubmit="return validateForm()">
+    <label for="user">UserName:</label>
+    <input type="text" id="user" name="user" oninput="validateUsername()">
+    <div id="usernameError" style="color: red;"></div><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" oninput="validatePassword()">
+    <div id="passwordError" style="color: red;"></div><br>
+    <input type="submit" value="Login">
+</form>
+<script>
+    function validateUsername() {
+        var usernameInput = document.getElementById('user'); // Get the input element for username by its ID
+        var usernameError = document.getElementById('usernameError'); // Get the error element for username by its ID
+        var username = usernameInput.value; // Get the value entered in the username input field
+
+        if (username.length < 3) {
+            usernameError.textContent = "Username must have at least three characters."; // Set the error message if the username is too short
+        } else if (!/^[A-Z][a-zA-Z]*$/.test(username)) {
+            usernameError.textContent = "Username must start from capital letter."; // Set the error message if the username doesn't start with a capital letter
+        } else {
+            usernameError.textContent = ""; // Clear the error message if the username is valid
+        }
+    }
+
+    function validatePassword() {
+        var passwordInput = document.getElementById('password'); // Get the input element for password by its ID
+        var passwordError = document.getElementById('passwordError'); // Get the error element for password by its ID
+        var password = passwordInput.value; // Get the value entered in the password input field
+
+        if (!/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_-])(?=.*[a-z]).{8,28}$/.test(password)) {
+            passwordError.textContent = "Password doesn't match the required pattern."; // Set the error message if the password doesn't match the required pattern
+        } else {
+            passwordError.textContent = ""; // Clear the error message if the password is valid
+        }
+    }
+
+    function validateForm() {
+        validateUsername(); // Call the function to validate the username
+        validatePassword(); // Call the function to validate the password
+
+        var usernameError = document.getElementById('usernameError').textContent; // Get the error message for username
+        var passwordError = document.getElementById('passwordError').textContent; // Get the error message for password
+
+        if (usernameError || passwordError) {
+            return false; // Prevent form submission if there are errors by returning false
+        }
+
+        return true; // Allow form submission if there are no errors by returning true
+    }
+</script>
+</body>
+</html>
